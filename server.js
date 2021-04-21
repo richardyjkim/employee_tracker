@@ -14,7 +14,7 @@ const db = mysql.createConnection({
   host: 'localhost',
   user: 'root',
   password: 'rladudwp',
-  database: 'employee'
+  database: 'employeeDB'
 });
 
 // Not Found response for Unmatched routes
@@ -41,11 +41,11 @@ startPrompt = () => {
       [
         "View All Employees?",
         "View All Employee's By Roles?",
-        "View all Emplyees By Deparments",
+        "View All Emplyees By Deparments",
         "Update Employee",
-        "Add Employee?",
-        "Add Role?",
-        "Add Department?"
+        "Add Employee",
+        "Add Role",
+        "Add Department"
       ]
     }
   ])
