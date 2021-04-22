@@ -24,7 +24,7 @@ CREATE TABLE employees (
   first_name VARCHAR(30) NOT NULL,
   last_name VARCHAR(30) NOT NULL,
   managers_id INTEGER,
-  role_id INTEGER,
+  roles_id INTEGER,
   FOREIGN KEY (roles_id) REFERENCES roles(id),
   FOREIGN KEY (managers_id) REFERENCES managers(id)
 );
@@ -32,4 +32,4 @@ CREATE TABLE employees (
 DROP TABLE IF EXISTS departments;
 DROP TABLE IF EXISTS roles;
 DROP TABLE IF EXISTS managers;
-DROP TABLE IF EXISTS employees;
+DROP TABLE IF EXISTS employees
