@@ -268,10 +268,9 @@ const addEmployee = () => {
 const updateEmployee = () => {
   inquirer.prompt([
     {
-      name: "employee",
-      type: "list",
-      message: "Please Select an employee who you wish to update",
-      choices: selectEmployee()
+      name: "employeeId",
+      type: "input",
+      message: "Please provide an employee's id who you wish to update",
     },
     {
       name: "newRole",
@@ -280,11 +279,12 @@ const updateEmployee = () => {
       choices: selectRole()
     }
   ]).then((answer) => {
-    let sql = `UPDATE employees SET WHERE ?`
+    let roleId = selectRole().indexOf(answer.newRole) + 1;
+    let sql = `UPDATE employees SET roles_id=? WHERE id=?`
     let params =
       [
-        answer.employee,
-        anwer.newRole
+        roleId,
+        answer.employeeId,
       ];
     db.query(sql, params, (err, res) => {
       if (err) throw err
