@@ -30,6 +30,9 @@ CREATE TABLE employees (
   last_name VARCHAR(30) NOT NULL,
   managers_id INTEGER,
   roles_id INTEGER,
+  managers_name VARCHAR(30),
+  departments_name VARCHAR (30) NOT NULL,
+  salary INTEGER,
   FOREIGN KEY (roles_id) REFERENCES roles(id),
   FOREIGN KEY (managers_id) REFERENCES managers(id)
 );

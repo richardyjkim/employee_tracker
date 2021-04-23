@@ -47,42 +47,44 @@ startPrompt = () => {
           "Add Department",
           "Add Role",
           "Add Employee",
-          "Update an Employee Role",
+          "Update an Employee Role"
         ]
     }
   ]).then(function (val) {
     switch (val.choice) {
       case "View All Departments":
         viewDept();
-        break;
+        return;
 
       case "View All Roles":
         viewRoles();
-        break;
+        return;
 
       case "View All Managers":
         viewManagers();
-        break;
+        return;
 
       case "View All Employees":
         viewAll();
-        break;
+        return;
 
       case "Add Department":
         addDept();
-        break;
+        return;
 
       case "Add Role":
         addRole();
-        break;
+        return;
 
       case "Add Employee":
         addEmployee();
-        break;
+        ;
+        return;
 
       case "Update an Employee Role":
         updateEmployee();
-        break;
+        ;
+        return;
     }
   })
 
@@ -94,6 +96,7 @@ const viewDept = () => {
   db.query(sql, (err, rows) => {
     if (err) throw err
     console.table(rows);
+    startPrompt();
   })
 };
 
@@ -103,6 +106,7 @@ const viewRoles = () => {
   db.query(sql, (err, rows) => {
     if (err) throw err
     console.table(rows);
+    startPrompt();
   })
 };
 
@@ -112,6 +116,7 @@ const viewManagers = () => {
   db.query(sql, (err, rows) => {
     if (err) throw err
     console.table(rows);
+    startPrompt();
   })
 };
 
@@ -121,7 +126,7 @@ const viewAll = () => {
   db.query(sql, (err, rows) => {
     if (err) throw err
     console.table(rows);
-
+    startPrompt();
   })
 };
 
@@ -164,6 +169,18 @@ const selectEmployee = () => {
   return employeeArr;
 };
 
+// Select Department
+let DeptArr = [];
+const selectDepartment = () => {
+  const sql = `SELECT * FROM departments`;
+  db.query(sql, (err, res) => {
+    if (err) throw err
+    for (let i = 0; i < res.length; i++) {
+      DeptArr.push(res[i].name);
+    }
+  })
+  return DeptArr;
+};
 
 // Add Department
 const addDept = () => {
@@ -179,7 +196,6 @@ const addDept = () => {
       if (err) throw err
       console.log("Department Successfully added!");
       viewDept();
-      startPrompt();
     })
   });
 };
@@ -215,7 +231,7 @@ const addRole = () => {
     db.query(sql, params, (err, res) => {
       if (err) throw err
       console.log("New Role Successfully added!");
-      startPrompt();
+      viewRoles();
     })
   });
 }
@@ -224,9 +240,9 @@ const addRole = () => {
 const addEmployee = () => {
   inquirer.prompt([
     {
-      name: "first",
+      name: "employeeId",
       type: "input",
-      message: "Please Enter thier first name"
+      message: "Please provide an employee's id who you wish to update",
     },
     {
       name: "last",
@@ -244,22 +260,36 @@ const addEmployee = () => {
       type: "rawlist",
       message: "Who is the manager?",
       choices: selectManager()
+    },
+    {
+      name: "departmentName",
+      type: "list",
+      message: "Where is thier department?",
+      choices: selectDepartment()
+    },
+    {
+      name: "salary",
+      type: "input",
+      message: "what is thier salary?",
     }
   ]).then((answer) => {
     let roleId = selectRole().indexOf(answer.role);
     let managerId = selectManager().indexOf(answer.manager);
-    let sql = `INSERT INTO employees (first_name, last_name, managers_id, roles_id) VALUES (?,?,?,?)`;
+    let sql = `INSERT INTO employees (first_name, last_name, managers_id, roles_id, managers_name, departments_name, salary) VALUES (?,?,?,?,?,?,?)`;
     let params =
       [
         answer.first,
         answer.last,
         managerId,
-        roleId
+        roleId,
+        answer.manager,
+        answer.departmentName,
+        answer.salary
       ];
     db.query(sql, params, (err, res) => {
       if (err) throw err
       console.log("New Employee Successfully added!");
-      startPrompt();
+      viewAll();
     })
   });
 };
@@ -289,7 +319,6 @@ const updateEmployee = () => {
     db.query(sql, params, (err, res) => {
       if (err) throw err
       console.log("Employee status Successfully updated!");
-      startPrompt();
     })
   });
-}
+};
