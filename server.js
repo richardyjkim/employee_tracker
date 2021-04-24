@@ -67,7 +67,7 @@ startPrompt = () => {
       case "View All Employees":
         viewAll();
         break;
-        
+
       case "Add Department":
         addDept();
         break;
@@ -273,8 +273,8 @@ const addEmployee = () => {
       message: "what is thier salary?",
     }
   ]).then((answer) => {
-    let roleId = selectRole().indexOf(answer.role);
-    let managerId = selectManager().indexOf(answer.manager);
+    let roleId = selectRole().indexOf(answer.role) + 1;
+    let managerId = selectManager().indexOf(answer.manager) + 1;
     let sql = `INSERT INTO employees (first_name, last_name, managers_id, roles_id, managers_name, departments_name, salary) VALUES (?,?,?,?,?,?,?)`;
     let params =
       [
