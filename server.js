@@ -54,23 +54,23 @@ startPrompt = () => {
     switch (val.choice) {
       case "View All Departments":
         viewDept();
-        return;
+        break;
 
       case "View All Roles":
         viewRoles();
-        return;
+        break;
 
       case "View All Managers":
         viewManagers();
-        return;
+        break;
 
       case "View All Employees":
         viewAll();
-        return;
-
+        break;
+        
       case "Add Department":
         addDept();
-        return;
+        break;
 
       case "Add Role":
         addRole();
@@ -79,7 +79,7 @@ startPrompt = () => {
       case "Add Employee":
         addEmployee();
         ;
-        return;
+        break;
 
       case "Update an Employee Role":
         updateEmployee();
@@ -240,9 +240,9 @@ const addRole = () => {
 const addEmployee = () => {
   inquirer.prompt([
     {
-      name: "employeeId",
+      name: "first",
       type: "input",
-      message: "Please provide an employee's id who you wish to update",
+      message: "Please Endter thier first name",
     },
     {
       name: "last",
